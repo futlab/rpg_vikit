@@ -12,6 +12,7 @@
 #include <vikit/homography.h>
 #include <opencv2/opencv.hpp>
 #include <stdio.h>
+#include <Eigen/LU>
 
 namespace vk {
 
@@ -31,7 +32,7 @@ void Homography::
 calcFromPlaneParams(const Vector3d& n_c1, const Vector3d& xyz_c1)
 {
   double d = n_c1.dot(xyz_c1); // normal distance from plane to KF
-  H_c2_from_c1 = T_c2_from_c1.rotation_matrix() + (T_c2_from_c1.translation()*n_c1.transpose())/d;
+  H_c2_from_c1 = T_c2_from_c1.rotationMatrix() + (T_c2_from_c1.translation()*n_c1.transpose())/d;
 }
 
 void Homography::
@@ -195,7 +196,7 @@ decompose()
   {
     Matrix3d R = s * U * decompositions[i].R * V.transpose();
     Vector3d t = U * decompositions[i].t;
-    decompositions[i].T = Sophus::SE3(R, t);
+    decompositions[i].T = SE3(R, t);
   }
   return true;
 }
@@ -259,8 +260,8 @@ findBestDecomposition()
     double adSampsonusScores[2];
     for(size_t i=0; i<2; i++)
     {
-      Sophus::SE3 T = decompositions[i].T;
-      Matrix3d Essential = T.rotation_matrix() * sqew(T.translation());
+      SE3 T = decompositions[i].T;
+      Matrix3d Essential = T.rotationMatrix() * sqew(T.translation());
       double dSumError = 0;
       for(size_t m=0; m < fts_c1.size(); m++ )
       {

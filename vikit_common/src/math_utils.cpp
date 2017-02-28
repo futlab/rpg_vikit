@@ -6,6 +6,7 @@
  */
 
 #include <vikit/math_utils.h>
+#include <Eigen/LU>
 
 namespace vk {
 
