@@ -175,7 +175,7 @@ computeResiduals (const SE3& model, bool linearize_system, bool compute_weight_s
           float dy = 0.5*interpolateMat_32f(img_pyr_dy_[level_], uv_img_pyr[0], uv_img_pyr[1]);
 
           // evaluate jacobian
-          Matrix<double,2,6> frame_jac;
+          Eigen::Matrix<double,2,6> frame_jac;
           frameJac_xyz2uv(xyz_img, cam_pyr_[level_].fx(), frame_jac);
 
           // compute steppest descent images
@@ -234,7 +234,7 @@ finishIteration()
 
   if(display_)
   {
-    cv::namedWindow("residuals", CV_WINDOW_AUTOSIZE);
+    cv::namedWindow("residuals", cv::WINDOW_AUTOSIZE);
     cv::imshow("residuals", resimg_*3);
     cv::waitKey(0);
   }
@@ -376,7 +376,7 @@ computeResiduals (const SE3& model, bool linearize_system, bool compute_weight_s
           cv::Vec3f cv_float3 = depth_pyr_[level_].at<cv::Vec3f>(v,u);
           Vector3d xyz_tpl(cv_float3[0], cv_float3[1], cv_float3[2]);
           Vector3d xyz_img(model*xyz_tpl);
-          Matrix<double,2,6> frame_jac;
+          Eigen::Matrix<double,2,6> frame_jac;
           frameJac_xyz2uv(xyz_tpl, cam_pyr_[level_].fx(), frame_jac);
 
           // compute steppest descent images
@@ -434,7 +434,7 @@ finishIteration()
 
   if(display_)
   {
-    cv::namedWindow("residuals", CV_WINDOW_AUTOSIZE);
+    cv::namedWindow("residuals", cv::WINDOW_AUTOSIZE);
     cv::imshow("residuals", resimg_*3);
     cv::waitKey(0);
   }

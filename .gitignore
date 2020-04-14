@@ -1,1 +1,4 @@
 vikit_py/build
+*.user
+bin/
+lib/
