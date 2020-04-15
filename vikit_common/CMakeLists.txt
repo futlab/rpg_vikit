@@ -50,7 +50,8 @@ list(APPEND SOURCEFILES src/atan_camera.cpp
                         src/img_align.cpp)
 
 # Create vikit library
-add_library(${PROJECT_NAME} SHARED ${SOURCEFILES})
+add_library(vikit_common SHARED ${SOURCEFILES})
+add_library(vikit::common ALIAS vikit_common)
 target_link_libraries(${PROJECT_NAME}
     Eigen3::Eigen
     ${OpenCV_LIBS}
@@ -59,7 +60,7 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 # Include dirs
-target_include_directories(${PROJECT_NAME}
+target_include_directories(vikit_common
     PUBLIC include
     PRIVATE ${OpenCV_INCLUDE_DIRS}
     PRIVATE ${Sophus_INCLUDE_DIRS}
@@ -67,18 +68,18 @@ target_include_directories(${PROJECT_NAME}
 
 
 if(USE_ROS)
-  TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${catkin_LIBRARIES})
+  TARGET_LINK_LIBRARIES(vikit_common ${catkin_LIBRARIES})
 endif()
 
 # Tests
 add_executable(test_vk_common_camera test/test_camera.cpp)
-TARGET_LINK_LIBRARIES(test_vk_common_camera ${PROJECT_NAME})
+TARGET_LINK_LIBRARIES(test_vk_common_camera vikit::common)
 
 add_executable(test_vk_common_triangulation test/test_triangulation.cpp)
-TARGET_LINK_LIBRARIES(test_vk_common_triangulation ${PROJECT_NAME})
+TARGET_LINK_LIBRARIES(test_vk_common_triangulation vikit::common)
 
 add_executable(test_vk_common_patch_score test/test_patch_score.cpp)
-TARGET_LINK_LIBRARIES(test_vk_common_patch_score ${PROJECT_NAME})
+TARGET_LINK_LIBRARIES(test_vk_common_patch_score vikit::common)
 
 
 ################################################################################

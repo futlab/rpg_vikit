@@ -1,8 +1,9 @@
 include(CMakeFindDependencyMacro)
 
 
-include("${CMAKE_CURRENT_LIST_DIR}/vikit_commonTargets.cmake")
-
+if(NOT TARGET vikit::common)
+    include("${CMAKE_CURRENT_LIST_DIR}/vikit_commonTargets.cmake")
+endif()
 
 #######################################################
 # vikit_common source dir
