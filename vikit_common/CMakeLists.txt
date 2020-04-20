@@ -50,7 +50,13 @@ list(APPEND SOURCEFILES src/atan_camera.cpp
                         src/img_align.cpp)
 
 # Create vikit library
-add_library(vikit_common SHARED ${SOURCEFILES})
+add_library(vikit_common ${SOURCEFILES})
+set_target_properties(vikit_common PROPERTIES
+    CXX_STANDARD 17
+    CXX_EXTENSIONS OFF
+    POSITION_INDEPENDENT_CODE ON
+)
+
 add_library(vikit::common ALIAS vikit_common)
 target_link_libraries(${PROJECT_NAME}
     Eigen3::Eigen
